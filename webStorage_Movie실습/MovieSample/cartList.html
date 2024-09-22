@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<link  rel="stylesheet" type="text/css" href="css/basic.css"  />
+<style type="text/css">
+.poster {
+	width : 150px;
+	height : 150px;
+	
+}
+
+a{text-decoration: none}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script>
+	$(function(){
+		var totalPrice=0;
+
+		for(var i=0;i<localStorage.length;i++)
+		{
+			var key=localStorage.key(i);
+			var value=localStorage.getItem(key).split(',');
+			var row = `<tr>
+                <td><img class="poster" src="${value[1]}" /></td>
+                <td>${key}</td>
+                <td>${value[0]}</td>
+                <td>${value[2]}</td>
+                <td><button name="delItem" data-id="${key}">삭제</button></td>
+              </tr>`;
+			$('#content').append(row);
+			totalPrice+=parseInt(value[2]);
+		}
+		$('#price').text("총 주문 가격 : "+totalPrice+"원");
+		//찜 리스트 기능 구현
+
+
+		$(document).on('click','button[name="delItem"]',function(){
+			localStorage.removeItem($(this).data('id'));
+			location.reload();
+		});
+		//삭제 버튼 구현
+		// 삭제 버튼은 동적으로 추가된 요소들에 대해 작동해야 함
+		// ->$('button[name="delItem"]')으로 만들면 안 된다
+		// $(document) 로 생성해야 한다
+		// 상위요소(document)에 미리 등록하고 클릭 이벤트가 발생할 때마다 조건에 맞는지 검사한다
+
+	});
+</script>
+<script type="text/javascript">
+  
+</script>
+</head>
+<body>
+<button name="delItem">삭제</button>
+<hr>
+		<article class="main">
+		<section>
+			<table width="80%"  align="center"  >
+			<caption class="caption">찜 리스트</caption>
+			<thead>
+				<tr><th>이미지</th><th>상품번호</th><th>상품이름</th><th>가격</th><th>삭제</th></tr>
+			</thead>
+			<tbody id="content">
+			   <!-- 찜목록 출력 -->
+			    
+			</tbody>
+			</table>
+		</section>
+		<section  class="toalprice" id="price">
+			<!-- 가격 -->
+		</section>
+		<section class="link">
+			<table   align="center">
+			<tr><td align="center">
+				<a href="">주문하러 가기</a> 
+				<a href="index.html">DVD LIST</a> 
+			</td></tr>
+			</table>
+		</section>
+		</article>
+</body>
+</html>
